@@ -5,12 +5,14 @@
  */
 package view;
 
+import model.ModelPessoa;
+
 /**
  *
  * @author PICHAU
  */
 public class FrmAlterarTarefa extends javax.swing.JFrame {
-
+ ModelPessoa pessoa = new ModelPessoa();
     /**
      * Creates new form FrmAlterarTarefa
      */
@@ -18,6 +20,11 @@ public class FrmAlterarTarefa extends javax.swing.JFrame {
         initComponents();
     }
 
+    public void setPessoa(ModelPessoa pessoa){
+        this.pessoa = pessoa;
+        
+    }
+    
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -225,7 +232,13 @@ public class FrmAlterarTarefa extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void jMenuItem1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem1ActionPerformed
-        // TODO add your handling code here:
+        
+        
+        FrmListarTarefas frmListarTarefas = new FrmListarTarefas(pessoa.getId());
+           frmListarTarefas.setVisible(true);
+           frmListarTarefas.setResizable(false);
+           this.dispose();
+        
     }//GEN-LAST:event_jMenuItem1ActionPerformed
 
     /**

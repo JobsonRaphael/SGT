@@ -18,7 +18,7 @@ import javax.swing.JOptionPane;
  */
 public class Conexao {
     
-    public Statement stm;
+    public  Statement stm;
     public ResultSet rs;
     public Connection con;
     private String driver = "com.mysql.jdbc.Driver";
@@ -31,7 +31,7 @@ public class Conexao {
         try{
         System.setProperty("jdbc.Drivers", driver);
         con = DriverManager.getConnection(url,user,password);
-            JOptionPane.showMessageDialog(null,"Conectado com Sucesso");
+       
         }catch(SQLException ex){
                  JOptionPane.showMessageDialog(null,"Erro ao abrir conex�o BANCO DE DADOS --> " + ex.getMessage());
             
@@ -42,7 +42,7 @@ public class Conexao {
         
         try{
             con.close();
-            JOptionPane.showMessageDialog(null,"Desconectado com Sucesso");
+         
         }catch(SQLException ex){
              JOptionPane.showMessageDialog(null,"Erro ao fechar cconex�o BANCO DE DADOS --> " + ex.getMessage());
         }
@@ -52,15 +52,10 @@ public class Conexao {
     public ResultSet executeSql(String sql){
         
         try {
-            Statement stm = con.createStatement();
-            ResultSet response = stm.executeQuery(sql);
-             con.close();
-             stm.close();
-             response.close();
-            if(response.next()){
-            System.out.println(response.getString(2));
-            }
-            return response;
+            Statement stm = con.createStatement(rs.TYPE_SCROLL_INSENSITIVE,rs.CONCUR_READ_ONLY);
+            rs = stm.executeQuery(sql);
+                                
+           
         } catch (Exception e) {
             e.printStackTrace();
         }

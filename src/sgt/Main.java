@@ -18,8 +18,7 @@ public class Main {
      */
     public static void main(String[] args) {
    
-        FrmLogin frmLogin = new FrmLogin(); 
-               
+        FrmLogin frmLogin = new FrmLogin();               
         frmLogin.setVisible(true);
         frmLogin.setDefaultCloseOperation(frmLogin.EXIT_ON_CLOSE);
 

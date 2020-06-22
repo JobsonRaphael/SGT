@@ -116,6 +116,9 @@
               <Dimension value="[59, 23]"/>
             </Property>
           </Properties>
+          <Events>
+            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jButtonVisitanteActionPerformed"/>
+          </Events>
         </Component>
       </SubComponents>
     </Container>

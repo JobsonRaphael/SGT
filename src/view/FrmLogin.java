@@ -6,10 +6,12 @@
 package view;
 
 import controller.ControllerLogin;
+import dao.DaoPessoa;
 import java.sql.SQLException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import model.ModelLogin;
+import javax.swing.JOptionPane;
+import model.ModelPessoa;
 import util.Conexao;
 
 /**
@@ -18,8 +20,9 @@ import util.Conexao;
  */
 public class FrmLogin extends javax.swing.JFrame {
 
-    ModelLogin modelLogin = new ModelLogin();
+    ModelPessoa pessoa = new ModelPessoa();
     ControllerLogin controllerLogin = new ControllerLogin();
+   
     
     public FrmLogin() {
         initComponents();
@@ -135,22 +138,36 @@ public class FrmLogin extends javax.swing.JFrame {
         login = jTextFieldLogin.getText();
         password = jTextFieldSenha.getText();
              
-        modelLogin.setLogin(login);
-        modelLogin.setPassword(password);
+        pessoa.setNomeUsuario(login);
+        pessoa.setSenha(password);
         
-        try {
-            controllerLogin.checkLogin(modelLogin);
-        } catch (SQLException ex) {
-            Logger.getLogger(FrmLogin.class.getName()).log(Level.SEVERE, null, ex);
-        }
-       
+      DaoPessoa daoPessoa = new DaoPessoa();
+       ModelPessoa modelPessoaResult = daoPessoa.buscarLogin(pessoa);
+     if(modelPessoaResult.getId() != 0){
+         
+         JOptionPane.showMessageDialog(null,"Logado com sucesso!");
+           FrmListarTarefas frmListarTarefas = new FrmListarTarefas(modelPessoaResult.getId());
+           frmListarTarefas.setVisible(true);
+           frmListarTarefas.setResizable(false);
+           this.dispose();
+           
+//         FrmTimeLine frmTimeLine = new FrmTimeLine();
+//         frmTimeLine.setUser(modelPessoaResult.getNomeUsuario(),modelPessoaResult.isVisitante());
+//         frmTimeLine.setVisible(true);
+//         frmTimeLine.setResizable(false);
+//         frmTimeLine.setTarefas(modelPessoaResult.getId());
+     }else{
+         JOptionPane.showMessageDialog(null,"Usuário nao encontrado");
+     }
        
     }//GEN-LAST:event_jButtonLogarActionPerformed
 
     private void jButtonVisitanteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonVisitanteActionPerformed
             
-        FrmLoginVisitante frmLoginVisitante = new FrmLoginVisitante();             
+        FrmLoginVisitante frmLoginVisitante = new FrmLoginVisitante(); 
         frmLoginVisitante.setVisible(true);
+        this.dispose();
+
     }//GEN-LAST:event_jButtonVisitanteActionPerformed
 
     /**

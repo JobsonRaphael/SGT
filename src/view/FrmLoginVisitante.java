@@ -49,6 +49,11 @@ public class FrmLoginVisitante extends javax.swing.JFrame {
 
         jButtonVisitante.setText("Voltar");
         jButtonVisitante.setPreferredSize(new java.awt.Dimension(59, 23));
+        jButtonVisitante.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButtonVisitanteActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
@@ -106,6 +111,13 @@ public class FrmLoginVisitante extends javax.swing.JFrame {
     private void jButtonLogarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonLogarActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_jButtonLogarActionPerformed
+
+    private void jButtonVisitanteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonVisitanteActionPerformed
+       FrmLogin frmLogin = new FrmLogin();
+       
+       frmLogin.setVisible(true);
+       this.dispose(); 
+    }//GEN-LAST:event_jButtonVisitanteActionPerformed
 
     /**
      * @param args the command line arguments

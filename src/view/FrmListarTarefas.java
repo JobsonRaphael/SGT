@@ -5,18 +5,62 @@
  */
 package view;
 
+import controller.ControllerTarefa;
+import dao.DaoTarefa;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.List;
+import javax.swing.table.DefaultTableModel;
+import model.ModelTarefa;
+
 /**
  *
  * @author PICHAU
  */
 public class FrmListarTarefas extends javax.swing.JFrame {
-
+    
+    
+List<ModelTarefa> listaTarefa =  new ArrayList<ModelTarefa>();
     /**
      * Creates new form FrmListarTarefas
+     * @param idUser
      */
-    public FrmListarTarefas() {
+    
+    int usuarioLogado;
+    public FrmListarTarefas(int idUser) {
+        usuarioLogado = idUser;
+         DaoTarefa daoTarefa = new DaoTarefa();
+        
         initComponents();
+        DefaultTableModel modelo = (DefaultTableModel)jTableTarefas.getModel();
+        modelo.setNumRows(0);
+         
+         listaTarefa = daoTarefa.buscarTarefas(idUser);
+         
+        for(ModelTarefa tarefa : listaTarefa){
+            
+             Date horaInicio = tarefa.getHoraInicio();
+             Date horaFim = tarefa.getHoraFim();
+             DateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss");
+             DateFormat horaFormat = new SimpleDateFormat("HH:mm:ss");
+        
+             String horaFormatadaInicio = horaFormat.format(horaInicio);
+             String horaFormatadaFim = horaFormat.format(horaFim);
+             modelo.addRow(new Object[]{
+             tarefa.getTitulo(),
+             Integer.toString(tarefa.getPrioridade()),
+             horaFormatadaInicio,
+             horaFormatadaFim
+            
+             
+         });
     }
+   
+        
+}   
+    
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -28,58 +72,104 @@ public class FrmListarTarefas extends javax.swing.JFrame {
     private void initComponents() {
 
         jScrollPane1 = new javax.swing.JScrollPane();
-        jTable1 = new javax.swing.JTable();
+        jTableTarefas = new javax.swing.JTable();
+        jButtonDeletar = new javax.swing.JButton();
         jMenuBar1 = new javax.swing.JMenuBar();
         jMenu1 = new javax.swing.JMenu();
-        jMenuItem1 = new javax.swing.JMenuItem();
+        jMenuCadastrarTarefa = new javax.swing.JMenuItem();
         jMenuItem2 = new javax.swing.JMenuItem();
+        jMenuItem1 = new javax.swing.JMenuItem();
         jMenu2 = new javax.swing.JMenu();
         jMenu3 = new javax.swing.JMenu();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
-        jTable1.setModel(new javax.swing.table.DefaultTableModel(
+        jTableTarefas.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {"Tarefa 1", "Alta", "12:00", "13:00", "x", "x"},
-                {"Tarefa 2", "Alta", "11:00", "12:00", "x", "x"},
-                {"Tarefa 3", "Alta", "09:00", "10:00", "x", "x"},
-                {"Tarefa 4", "Alta", "12:00", "14:00", "x", "x"},
-                {null, null, null, null, null, null},
-                {null, null, null, null, null, null},
-                {null, null, null, null, null, null},
-                {null, null, null, null, null, null},
-                {null, null, null, null, null, null},
-                {null, null, null, null, null, null},
-                {null, null, null, null, null, null},
-                {null, null, null, null, null, null},
-                {null, null, null, null, null, null},
-                {null, null, null, null, null, null},
-                {null, null, null, null, null, null},
-                {null, null, null, null, null, null},
-                {null, null, null, null, null, null},
-                {null, null, null, null, null, null},
-                {null, null, null, null, null, null},
-                {null, null, null, null, null, null},
-                {null, null, null, null, null, null}
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null}
             },
             new String [] {
-                "Título", "Prioridade", "Hora Início", "Hora Fim", "Editar", "Remover"
+                "Título", "Prioridade", "Hora Início", "Hora Fim"
             }
-        ));
-        jScrollPane1.setViewportView(jTable1);
+        ) {
+            Class[] types = new Class [] {
+                java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class
+            };
+
+            public Class getColumnClass(int columnIndex) {
+                return types [columnIndex];
+            }
+        });
+        jTableTarefas.setColumnSelectionAllowed(true);
+        jTableTarefas.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
+        jTableTarefas.addAncestorListener(new javax.swing.event.AncestorListener() {
+            public void ancestorAdded(javax.swing.event.AncestorEvent evt) {
+            }
+            public void ancestorMoved(javax.swing.event.AncestorEvent evt) {
+            }
+            public void ancestorRemoved(javax.swing.event.AncestorEvent evt) {
+                jTableTarefasAncestorRemoved(evt);
+            }
+        });
+        jTableTarefas.addFocusListener(new java.awt.event.FocusAdapter() {
+            public void focusGained(java.awt.event.FocusEvent evt) {
+                jTableTarefasFocusGained(evt);
+            }
+        });
+        jScrollPane1.setViewportView(jTableTarefas);
+        jTableTarefas.getColumnModel().getSelectionModel().setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
+
+        jButtonDeletar.setText("Deletar");
+        jButtonDeletar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButtonDeletarActionPerformed(evt);
+            }
+        });
 
         jMenu1.setText("Tarefas");
 
-        jMenuItem1.setText("Cadastrar");
+        jMenuCadastrarTarefa.setText("Cadastrar");
+        jMenuCadastrarTarefa.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuCadastrarTarefaActionPerformed(evt);
+            }
+        });
+        jMenu1.add(jMenuCadastrarTarefa);
+
+        jMenuItem2.setText("Consultar");
+        jMenuItem2.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItem2ActionPerformed(evt);
+            }
+        });
+        jMenu1.add(jMenuItem2);
+
         jMenuItem1.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jMenuItem1ActionPerformed(evt);
             }
         });
         jMenu1.add(jMenuItem1);
-
-        jMenuItem2.setText("Consultar");
-        jMenu1.add(jMenuItem2);
 
         jMenuBar1.add(jMenu1);
 
@@ -99,21 +189,97 @@ public class FrmListarTarefas extends javax.swing.JFrame {
                 .addGap(28, 28, 28)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 795, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap(32, Short.MAX_VALUE))
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(jButtonDeletar)
+                .addGap(211, 211, 211))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                 .addContainerGap(81, Short.MAX_VALUE)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 329, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(57, 57, 57))
+                .addGap(18, 18, 18)
+                .addComponent(jButtonDeletar)
+                .addGap(16, 16, 16))
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
+    private void jMenuCadastrarTarefaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuCadastrarTarefaActionPerformed
+        // TODO add your handling code here:
+        FrmCadastrarTarefa frmCadastrarTarefa = new FrmCadastrarTarefa();
+           frmCadastrarTarefa.setVisible(true);
+           frmCadastrarTarefa.setResizable(false);
+           frmCadastrarTarefa.setUser(usuarioLogado);
+        this.dispose();
+        
+       
+       
+        
+    }//GEN-LAST:event_jMenuCadastrarTarefaActionPerformed
+
     private void jMenuItem1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem1ActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_jMenuItem1ActionPerformed
+
+    private void jTableTarefasAncestorRemoved(javax.swing.event.AncestorEvent evt) {//GEN-FIRST:event_jTableTarefasAncestorRemoved
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jTableTarefasAncestorRemoved
+
+    private void jTableTarefasFocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_jTableTarefasFocusGained
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jTableTarefasFocusGained
+
+    private void jButtonDeletarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonDeletarActionPerformed
+
+        int index = jTableTarefas.getSelectedRow();
+         
+         ModelTarefa mTarefa = listaTarefa.get(index);
+         
+         ControllerTarefa controllerTarefa = new ControllerTarefa();
+         if(controllerTarefa.removerTarefa(mTarefa)){
+             
+             this.dispose();
+            new FrmListarTarefas(usuarioLogado).setVisible(true);
+             
+             
+//            DaoTarefa daoTarefa = new DaoTarefa();
+        
+//        initComponents();
+//        DefaultTableModel modelo = (DefaultTableModel)jTableTarefas.getModel();
+//        modelo.setNumRows(0);
+//         
+//         listaTarefa = daoTarefa.buscarTarefas(usuarioLogado);
+//         
+//        for(ModelTarefa tarefa : listaTarefa){
+//            
+//             Date horaInicio = tarefa.getHoraInicio();
+//             Date horaFim = tarefa.getHoraFim();
+//             DateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss");
+//             DateFormat horaFormat = new SimpleDateFormat("HH:mm:ss");
+//        
+//             String horaFormatadaInicio = horaFormat.format(horaInicio);
+//             String horaFormatadaFim = horaFormat.format(horaFim);
+//             modelo.addRow(new Object[]{
+//             tarefa.getTitulo(),
+//             Integer.toString(tarefa.getPrioridade()),
+//             horaFormatadaInicio,
+//             horaFormatadaFim
+//            
+//             
+//         });
+//    }
+             
+         }
+
+    }//GEN-LAST:event_jButtonDeletarActionPerformed
+
+    private void jMenuItem2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem2ActionPerformed
+      
+        
+    }//GEN-LAST:event_jMenuItem2ActionPerformed
 
     /**
      * @param args the command line arguments
@@ -144,20 +310,27 @@ public class FrmListarTarefas extends javax.swing.JFrame {
 
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
+            public void run(int id) {
+                new FrmListarTarefas(id).setVisible(true);
+            }
+
+            @Override
             public void run() {
-                new FrmListarTarefas().setVisible(true);
+                throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
             }
         });
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton jButtonDeletar;
     private javax.swing.JMenu jMenu1;
     private javax.swing.JMenu jMenu2;
     private javax.swing.JMenu jMenu3;
     private javax.swing.JMenuBar jMenuBar1;
+    private javax.swing.JMenuItem jMenuCadastrarTarefa;
     private javax.swing.JMenuItem jMenuItem1;
     private javax.swing.JMenuItem jMenuItem2;
     private javax.swing.JScrollPane jScrollPane1;
-    private javax.swing.JTable jTable1;
+    private javax.swing.JTable jTableTarefas;
     // End of variables declaration//GEN-END:variables
 }
